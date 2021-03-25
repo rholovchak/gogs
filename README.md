@@ -22,6 +22,7 @@ The Gogs (`/gɑgz/`) project aims to build a simple, stable and extensible self-
 
 ## 💌 Features
 
+
 - User dashboard, user profile and activity timeline.
 - Access repositories via SSH, HTTP and HTTPS protocols.
 - User, organization and repository management.
@@ -44,6 +45,7 @@ The Gogs (`/gɑgz/`) project aims to build a simple, stable and extensible self-
 
 ## 💻 Browser support
 
+
 - Please see [Semantic UI](https://github.com/Semantic-Org/Semantic-UI#browser-support) for specific versions of supported browsers.
 - The smallest resolution officially supported is **1024*768**, however the UI may still look right in smaller resolutions, but no promises or fixes.
 
@@ -61,6 +63,7 @@ There are 6 ways to install Gogs:
 - [Install with Kubernetes Using Helm Charts](https://github.com/helm/charts/tree/master/incubator/gogs)
 
 ### Deploy to cloud
+
 
 - [Cloudron](https://cloudron.io/appstore.html#io.gogs.cloudronapp)
 - [Scaleway](https://www.scaleway.com/imagehub/gogs/)
