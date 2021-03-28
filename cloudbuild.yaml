@@ -1,5 +1,15 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'eu.gcr.io/$PROJECT_ID/gogs:$BUILD_ID', '-t', 'eu.gcr.io/$PROJECT_ID/gogs:latest', '.']
+  
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'eu.gcr.io/$PROJECT_ID/gogs:$BUILD_ID']
+  
+- name: 'gcr.io/cloud-builders/gke-deploy'
+  id: 'Apply deploy'
+  args:
+  - 'apply'
+  - '--filename=deployment.yaml'
+  - '--namespace=default'
+  - '--cluster=gogs-gke'
+  - '--location=europe-west3'
