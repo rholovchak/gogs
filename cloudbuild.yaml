@@ -1,3 +1,5 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gogs:1', '.']
+  args: ['build', '-t', 'eu.gcr.io/$PROJECT_ID/gogs:$BUILD_ID', '.']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'eu.gcr.io/$PROJECT_ID/gogs:$BUILD_ID']
