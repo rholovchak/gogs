@@ -25,6 +25,10 @@ The Gogs (`/gɑgz/`) project aims to build a simple, stable and extensible self-
 ## 💌 Features
 
 
+
+
+
+
 - User dashboard, user profile and activity timeline.
 - Access repositories via SSH, HTTP and HTTPS protocols.
 - User, organization and repository management.
