@@ -33,6 +33,17 @@ spec:
       targetPort: 3000
   type: LoadBalancer
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-mysql
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+---
 
 apiVersion: v1
 kind: Service
@@ -45,18 +56,6 @@ spec:
     app: mysql
   clusterIP: None
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: pvc-mysql
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 2Gi
----
-apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql
@@ -77,9 +76,7 @@ spec:
         env:
           # Use secret in real usage
         - name: MYSQL_ROOT_PASSWORD
-          value: root
-        - name: MYSQL_DATABASE
-          value: "gogs-db"
+          value: password
         ports:
         - containerPort: 3306
           name: mysql
