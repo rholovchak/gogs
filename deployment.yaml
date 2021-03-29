@@ -45,29 +45,16 @@ spec:
     app: mysql
   clusterIP: None
 ---
-kind: StorageClass
-apiVersion: storage.k8s.io/v1beta1
-metadata:
-    name: px-ha-sc
-provisioner: kubernetes.io/portworx-volume
-parameters:
-  repl: "3"
-  io_profile: "db_remote"
-  priority_io: "high"
-  fs: "xfs"
----
-kind: PersistentVolumeClaim
 apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
-   name: px-mysql-pvc
-   annotations:
-     volume.beta.kubernetes.io/storage-class: px-ha-sc
+  name: pvc-mysql
 spec:
-   accessModes:
-     - ReadWriteOnce
-   resources:
-     requests:
-       storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -102,4 +89,4 @@ spec:
       volumes:
       - name: mysql-persistent-storage
         persistentVolumeClaim:
-          claimName: px-mysql-pvc
+          claimName: pvc-mysql
