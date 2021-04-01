@@ -1,9 +1,15 @@
 steps:
-# - name: 'gcr.io/cloud-builders/docker'
-#   args: ['build', '-t', 'eu.gcr.io/$PROJECT_ID/gogs:$BUILD_ID', '-t', 'eu.gcr.io/$PROJECT_ID/gogs:latest', '.']
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Docker build'
+  args: ['build', '-t', 'eu.gcr.io/$PROJECT_ID/gogs:$BUILD_ID', '-t', 'eu.gcr.io/$PROJECT_ID/gogs:latest', '.']
   
-# - name: 'gcr.io/cloud-builders/docker'
-#   args: ['push', 'eu.gcr.io/$PROJECT_ID/gogs:$BUILD_ID']
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Push buildID'
+  args: ['push', 'eu.gcr.io/gogs-project/gogs:$BUILD_ID']
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Push latest'
+  args: ['push', 'eu.gcr.io/gogs-project/gogs:latest']
   
 - name: 'gcr.io/cloud-builders/gke-deploy'
   id: 'Apply deploy'

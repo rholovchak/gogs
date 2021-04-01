@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: gogs
-        image: gogs/gogs
+        image: eu.gcr.io/gogs-project/gogs:latest
         ports:
         - containerPort: 3000
 ---
