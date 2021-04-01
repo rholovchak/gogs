@@ -21,7 +21,7 @@ spec:
         - containerPort: 3000
 ---
 
-apiVersion: apps/v1
+apiVersion: v1
 kind: Service
 metadata:
   name: gogs-service
@@ -33,7 +33,21 @@ spec:
       targetPort: 3000
   type: LoadBalancer
 ---
-apiVersion: apps/v1
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: postgres-pv-claim
+  labels:
+    app: postgres
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
   name: postgres
@@ -42,28 +56,24 @@ spec:
   template:
     metadata:
       labels:
-        app: postgres
+        service: postgres
     spec:
       containers:
         - name: postgres
-          image: postgres:10.4
-          imagePullPolicy: "IfNotPresent"
+          image: postgres
           ports:
             - containerPort: 5432
-          envFrom:
-            - configMapRef:
-                name: postgres-config
+          env:
+            - name: POSTGRES_DB
+              value: gogs
+            - name: POSTGRES_USER
+              value: gogs
+            - name: POSTGRES_PASSWORD
+              value: gogs
           volumeMounts:
-            - mountPath: /var/lib/postgresql/data
-                name: postgredb
-      selector:
-        matchLabels:
-          app.kubernetes.io/gogs: gogs
-      template:
-        metadata:
-          labels:
-            app.kubernetes.io/gogs: gogs
+            - mountPath: "/var/lib/postgresql/data"
+              name: gogs-pgdata
       volumes:
-        - name: postgredb
+        - name: gogs-pgdata
           persistentVolumeClaim:
             claimName: postgres-pv-claim
