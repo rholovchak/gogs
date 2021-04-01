@@ -55,14 +55,14 @@ spec:
                 name: postgres-config
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: postgredb
-       selector:
-         matchLabels:
-           app.kubernetes.io/gogs: gogs
-       template:
-         metadata:
-           labels:
-             app.kubernetes.io/gogs: gogs
+                name: postgredb
+      selector:
+        matchLabels:
+          app.kubernetes.io/gogs: gogs
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/gogs: gogs
       volumes:
         - name: postgredb
           persistentVolumeClaim:
