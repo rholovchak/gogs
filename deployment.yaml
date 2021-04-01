@@ -20,7 +20,19 @@ spec:
         ports:
         - containerPort: 3000
 ---
-
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  labels:
+    app: postgres
+spec:
+  type: NodePort
+  ports:
+   - port: 5432
+  selector:
+   app: postgres
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -32,6 +44,22 @@ spec:
     - port: 80
       targetPort: 3000
   type: LoadBalancer
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: postgres-pv-volume
+  labels:
+    type: local
+    app: postgres
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/var/lib/data"
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
@@ -51,29 +79,65 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgres
+  labels:
+    app: postgres
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
   template:
     metadata:
       labels:
-        service: postgres
+        app: postgres
     spec:
       containers:
-        - name: postgres
-          image: postgres
-          ports:
-            - containerPort: 5432
-          env:
-            - name: POSTGRES_DB
-              value: gogs
-            - name: POSTGRES_USER
-              value: gogs
-            - name: POSTGRES_PASSWORD
-              value: gogs
-          volumeMounts:
-            - mountPath: "/var/lib/postgresql/data"
-              name: gogs-pgdata
+      - name: postgres
+        image: postgres
+        ports:
+        - containerPort: 5432
+        env:
+          - name: POSTGRES_DB
+            value: gogs
+          - name: POSTGRES_USER
+            value: gogs
+          - name: POSTGRES_PASSWORD
+            value: gogs
+        volumeMounts:
+          - mountPath: "/var/lib/postgresql/data"
+            name: gogs-pgdata
       volumes:
         - name: gogs-pgdata
           persistentVolumeClaim:
             claimName: postgres-pv-claim
+
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: postgres
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: postgres
+#   template:
+#     spec:
+#       containers:
+#         - name: postgres
+#           image: postgres
+#           ports:
+#             - containerPort: 5432
+#           env:
+#             - name: POSTGRES_DB
+#               value: gogs
+#             - name: POSTGRES_USER
+#               value: gogs
+#             - name: POSTGRES_PASSWORD
+#               value: gogs
+#           volumeMounts:
+#             - mountPath: "/var/lib/postgresql/data"
+#               name: gogs-pgdata
+#       volumes:
+#         - name: gogs-pgdata
+#           persistentVolumeClaim:
+#             claimName: postgres-pv-claim
