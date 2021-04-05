@@ -35,7 +35,7 @@ COPY docker ./docker
 COPY --from=binarybuilder /gogs.io/gogs/gogs .
 
 RUN ./docker/finalize.sh
-RUN mkdir /data; chown git:git /data -R
+RUN mkdir /var/app; chown git:git /var/app -R
 
 # Configure Docker Container
 VOLUME ["/data", "/backup"]
