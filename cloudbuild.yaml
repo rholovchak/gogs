@@ -15,7 +15,7 @@ steps:
   id: 'Apply deploy'
   args:
   - 'apply'
-  - '--filename=deployment.yaml'
+  - '--filename=./k8s-deploy/deployment.yaml'
   - '--namespace=default'
   - '--cluster=gogs-gke'
   - '--location=europe-west3'
