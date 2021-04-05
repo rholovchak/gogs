@@ -30,7 +30,7 @@ ENV GOGS_CUSTOM /data/gogs
 
 # Configure LibC Name Service
 COPY docker/nsswitch.conf /etc/nsswitch.conf
-
+RUN sudo mkdir /data; sudo chown gogs:gogs /data -R
 WORKDIR /app/gogs
 COPY docker ./docker
 COPY --from=binarybuilder /gogs.io/gogs/gogs .
