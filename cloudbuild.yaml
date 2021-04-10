@@ -1,6 +1,6 @@
 steps:
 - name: 'golang'
-  id: 'Test'
+  id: 'ls'
   args: ['ls'] 
 - name: 'golang'
   id: 'Test'
