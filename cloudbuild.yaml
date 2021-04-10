@@ -4,7 +4,7 @@ steps:
   args: ['ls'] 
 - name: 'golang'
   id: 'Test'
-  args: ['go', 'test', '-v', '"./..."'] 
+  args: ['go', 'get', '&&', 'go', 'test', '-v', '"./..."'] 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'Docker build'
   args: ['build', '-t', 'eu.gcr.io/$PROJECT_ID/gogs:$BUILD_ID', '-t', 'eu.gcr.io/$PROJECT_ID/gogs:latest', '.']
