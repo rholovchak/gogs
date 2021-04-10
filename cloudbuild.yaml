@@ -4,7 +4,7 @@ steps:
   args: ['build', '-t', 'eu.gcr.io/$PROJECT_ID/gogs:$BUILD_ID', '-t', 'eu.gcr.io/$PROJECT_ID/gogs:latest', '.']
 - name: 'gcr.io/cloud-builders/go'
   id: 'Test'
-  args: ['go', 'test', '-v', '"./..."'] 
+  args: ['ls', '&&', 'go', 'test', '-v', '"./..."'] 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'Push buildID'
   args: ['push', 'eu.gcr.io/gogs-project/gogs:$BUILD_ID']
