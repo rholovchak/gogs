@@ -1,7 +1,7 @@
 steps:
 - name: 'golang'
   id: 'Test'
-  args: ['bash', "-c", '"ls"'] 
+  args: ['bash', 'test.sh'] 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'Docker build'
   args: ['build', '-t', 'eu.gcr.io/$PROJECT_ID/gogs:$BUILD_ID', '-t', 'eu.gcr.io/$PROJECT_ID/gogs:latest', '.']

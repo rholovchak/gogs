@@ -1,0 +1,1 @@
+for d in ./internal/*/ ; do (cd "$d" && go test); done
