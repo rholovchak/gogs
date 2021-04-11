@@ -1,5 +1,4 @@
 steps:
-timeout: 900s
 - name: 'golang'
   id: 'Test'
   args: ['bash', 'test.sh'] 
@@ -29,3 +28,4 @@ timeout: 900s
   id: 'Update image'
   entrypoint: 'kubectl'
   args: ['set', 'image', 'deployment/gogs-deployment', 'gogs=eu.gcr.io/gogs-project/gogs:$BUILD_ID']
+timeout: 900s
