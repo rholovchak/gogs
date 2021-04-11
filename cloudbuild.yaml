@@ -17,10 +17,17 @@ steps:
   args: ['push', 'eu.gcr.io/gogs-project/gogs:latest']
   
 - name: 'gcr.io/cloud-builders/gke-deploy'
-  id: 'Apply deploy'
+  id: 'Deploy resources'
   args:
   - 'apply'
   - '--filename=./k8s-deploy/deployment.yaml'
   - '--namespace=default'
   - '--cluster=gogs-gke'
   - '--location=europe-west3'
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  env:
+  - CLOUDSDK_COMPUTE_REGION=europe-west3
+  - CLOUDSDK_CONTAINER_CLUSTER=gogs-gke
+  id: 'Update image'
+  entrypoint: 'kubectl'
+  args: ['set', 'image', 'deployment/gogs-deployment', 'gogs=eu.gcr.io/gogs-project/gogs:$BUILD_ID']
